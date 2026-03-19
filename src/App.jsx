@@ -229,15 +229,18 @@ Return ONLY a JSON object with this exact structure, no markdown, no explanation
   ]
 }`;
 
-  const response = await fetch("/api/openai/v1/chat/completions", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.3
-    })
-  });
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+  method: "POST",
+  headers: { 
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
+  },
+  body: JSON.stringify({
+    model: "llama-3.3-70b-versatile",
+    messages: [{ role: "user", content: prompt }],
+    temperature: 0.3
+  })
+});
 
   const data = await response.json();
   const raw = data.choices[0].message.content;
